@@ -1,5 +1,5 @@
 # WordWideMap-Package
 
-<b>For Info about package look at my site web<br>
-SiteWeb: appalermo.github.io
-</b>
+For Info about package look at my site web or contact me on Telegram<br>
+SiteWeb: https://appalermo.github.io/
+Telegram: https://t.me/APPA_py/
