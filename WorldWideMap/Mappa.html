@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Mappa Geografica ∼ @APPA_py</title>
+
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=An4rnDTS6ca4vLZlK0nDFgjxPnCUuRhVqsbg7QotgZXgo1b5Xa8QXHZU1S_Rc3Gf' async defer></script>
+
+    <script>
+        var map;
+        var pushpin;
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#map', {
+                center: new Microsoft.Maps.Location(0, 0),
+                zoom: 2
+            });
+
+            pushpin = new Microsoft.Maps.Pushpin(map.getCenter());
+            map.entities.push(pushpin);
+
+            Microsoft.Maps.Events.addHandler(map, 'mousemove', function(e) {
+                document.getElementById("coordinates").innerHTML =
+                    "<b>Latitudine: </b>" + e.location.latitude + ", <b>Longitudine: </b>" + e.location.longitude;
+                });
+        }
+
+        function moveToCoordinates() {
+            var input = document.getElementById("coordinate-input").value;
+            var coordinates = input.split(",");
+            var lat = parseFloat(coordinates[0]);
+            var lng = parseFloat(coordinates[1]);
+
+            var center = new Microsoft.Maps.Location(lat, lng);
+            map.setView({center: center, zoom: 13});
+            
+            var pushpin = new Microsoft.Maps.Pushpin(center);
+            map.entities.push(pushpin);
+
+            Microsoft.Maps.Events.addHandler(pushpin, 'click', function(){
+                map.entities.remove(pushpin);
+                });
+            
+            document.getElementById("coordinate-input").value = "";
+        }
+        
+        
+        function getCoordinates() {
+            event.preventDefault();
+            var city = document.getElementById("city").value;
+            var apiKey = "An4rnDTS6ca4vLZlK0nDFgjxPnCUuRhVqsbg7QotgZXgo1b5Xa8QXHZU1S_Rc3Gf";
+            var bingMapsUrl = "https://dev.virtualearth.net/REST/v1/Locations?q=" + city + "&key=" + apiKey;
+
+            fetch(bingMapsUrl)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var coordinates = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
+                var latitude = coordinates[0];
+                var longitude = coordinates[1];
+                alert("Si prega di guardare la scritta al centro. \nSe vuoi c'è la casella della ricerca delle coordinate pronta per trovare la tua città!");
+                document.getElementById("coordinates").innerHTML = "<b>Latitudine:</b> " + latitude + ", <b>Longitudine: </b>" + longitude;
+                document.getElementById("city").value = "";
+                document.getElementById("coordinate-input").value = latitude + ", " + longitude;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+            
+        }
+        
+
+    </script>
+
+  </head>
+
+  <div class="affiancati">
+    Coordinate: <input type="text" id="coordinate-input">
+  <button onclick="moveToCoordinates()">Andiamo!</button>
+  </div>
+  
+  <div class="affiancati-piu">
+    Luogo: <input type="text" id="city">
+    <button type="submit" onclick="getCoordinates()">Cerca!</button>
+  </div>
+
+
+  <body onload="GetMap()">
+    <center>
+        <div id="coordinates" ></div>
+    </center>
+    
+    <div id='map' style='width: 100%; height: 690px;'></div> 
+  </body>
+  
+
+  <style>
+    html{
+        background-color: #F0F0F0;
+    }
+    .affiancati{
+      display: flex;
+      position: absolute;
+      left: 50px;
+      top: 5px;
+      width: 100px; 
+      height: 20px;
+
+    }
+
+    .affiancati-piu{
+      display: flex;
+      position: absolute;
+      right: 0;
+      margin-right: 200px;
+      top: 5px;
+      width: 100px; 
+      height: 20px;
+    }
+
+  </style>
+
+
+</html>
