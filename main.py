@@ -32,6 +32,6 @@ print("The distance Milano - Roma is: {} Km".format(distance))
 metres = converter.kilometres_to_metres(distance)
 print("The distance Milano - Roma, in metres, is: {} m".format(metres))
 
-# WorldWideMap(Dubai[0], Dubai[1]).openMap("Mappa di Dubai")
+WorldWideMap(Dubai[0], Dubai[1]).openMap("Mappa di Dubai")
 
 GuiMappa.start()
