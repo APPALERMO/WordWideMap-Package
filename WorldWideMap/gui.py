@@ -12,7 +12,7 @@ class GuiMappa(QWidget):
         self.layout = QVBoxLayout(self)
 
         self.mappa = QWebEngineView()
-        self.mappa.load(QUrl("file:///WorldWideMap//Mappa.html"))
+        self.mappa.load(QUrl("https://appalermo.github.io/mappa/"))
         self.layout.addWidget(self.mappa)
 
     @staticmethod
